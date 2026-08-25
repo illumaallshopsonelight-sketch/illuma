@@ -1,49 +1,65 @@
-const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:5000/api';
+const API_BASE = process.env.REACT_APP_API_BASE || 'http://localhost:4001/api';
 
 function authHeaders() {
-  const token = localStorage.getItem('sc_token');
+  const token = localStorage.getItem('illuma_token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-export async function getFollowedShops() {
-  const res = await fetch(`${API_BASE}/follows`, { headers: authHeaders() });
-  return res.json();
+async function request(path, options = {}) {
+  const res = await fetch(`${API_BASE}${path}`, options);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+  return data;
 }
 
-export async function getShopStorefront(slug) {
-  const res = await fetch(`${API_BASE}/shops/${slug}`);
-  return res.json();
+export function signUpCustomer(payload) {
+  return request('/auth/user/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
 }
 
-export async function discoverShops(params = {}) {
+export function logInCustomer(payload) {
+  return request('/auth/user/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function getFollowedShops() {
+  return request('/follows', { headers: authHeaders() });
+}
+
+export function getShopStorefront(slug) {
+  return request(`/shops/${slug}`);
+}
+
+export function discoverShops(params = {}) {
   const query = new URLSearchParams(params).toString();
-  const res = await fetch(`${API_BASE}/shops?${query}`);
-  return res.json();
+  return request(`/shops${query ? `?${query}` : ''}`);
 }
 
-export async function followShop(shopId) {
-  const res = await fetch(`${API_BASE}/follows/${shopId}`, {
+export function followShop(shopId) {
+  return request(`/follows/${shopId}`, {
     method: 'POST',
     headers: authHeaders()
   });
-  return res.json();
 }
 
-export async function getChatMessages(shopId) {
-  const res = await fetch(`${API_BASE}/chat/${shopId}`, { headers: authHeaders() });
-  return res.json();
+export function getChatMessages(shopId) {
+  return request(`/chat/${shopId}`, { headers: authHeaders() });
 }
 
-export async function sendChatMessage(shopId, message_text) {
-  const res = await fetch(`${API_BASE}/chat/${shopId}`, {
+export function sendChatMessage(shopId, message_text) {
+  return request(`/chat/${shopId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ message_text })
   });
-  return res.json();
 }
 
-export async function getShopStatus(shopId) {
-  const res = await fetch(`${API_BASE}/status/${shopId}`);
-  return res.json();
+export function getShopStatus(shopId) {
+  return request(`/status/${shopId}`);
 }

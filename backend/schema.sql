@@ -1,9 +1,9 @@
--- ShopConnect Database Schema
+-- Illuma Database Schema
 -- Run this once against a fresh MySQL database, e.g.:
---   mysql -u root -p shopconnect < schema.sql
+--   mysql -u root -p illuma < schema.sql
 
-CREATE DATABASE IF NOT EXISTS shopconnect;
-USE shopconnect;
+CREATE DATABASE IF NOT EXISTS illuma;
+USE illuma;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
