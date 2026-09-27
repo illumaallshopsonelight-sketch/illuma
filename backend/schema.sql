@@ -100,7 +100,7 @@ CREATE TABLE views_log (
 -- Sample seed data so the app has something to demo immediately
 INSERT INTO shops (owner_name, business_name, category, phone_number, password_hash, slug, description)
 VALUES
-('Rina Kapoor', 'Rina''s Boutique', 'Clothing', '9999900001', 'placeholder_hash', 'rinas-boutique', 'Women''s ethnic and casual wear'),
+('Rina Kapoor', 'Rina''s Boutique', 'Clothing', '9999900001', 'rinakapoor', 'rinas-boutique', 'Women''s ethnic and casual wear'),
 ('Sameer Singh', 'City Mobile Repair', 'Electronics', '9999900002', 'placeholder_hash', 'city-mobile-repair', 'Phone repair and accessories'),
 ('Anita Sharma', 'Sharma Bakery', 'Food', '9999900003', 'placeholder_hash', 'sharma-bakery', 'Fresh cakes and baked goods');
 
